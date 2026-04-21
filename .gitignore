@@ -47,3 +47,7 @@ Thumbs.db
 .github/prompts
 .specify
 .vscode/settings.json
+
+# Ignore environment variables but allow the example file
+.env
+!.env.example
