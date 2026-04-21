@@ -40,3 +40,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Spec Kit
+/specs
+.github/agents
+.github/prompts
+.specify
+.vscode/settings.json
