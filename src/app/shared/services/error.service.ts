@@ -41,7 +41,7 @@ export class ErrorService {
       error: error.error?.error || error.statusText,
       path: error.url || undefined,
       timestamp: new Date().toISOString(),
-      details: serverMessage,
+      details: serverMessage || undefined,
       errors: error.error?.errors
     };
   }

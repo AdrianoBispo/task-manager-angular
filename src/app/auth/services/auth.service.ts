@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, distinctUntilChanged, map, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { HttpService } from '../../shared/services/http.service';
 import { User, LoginPayload, RegisterPayload, AuthPayload } from '../../shared/models/auth.model';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+
+type StoredAuthSession = {
+  token: string;
+  usuario: User;
+};
+
+const AUTH_STORAGE_KEY = 'task-manager-auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private userSubject = new BehaviorSubject<User | null>(this.restoreSession());
-  private tokenSubject = new BehaviorSubject<string | null>(this.getStoredToken());
+  private readonly initialSession = this.readStoredSession();
+  private userSubject = new BehaviorSubject<User | null>(this.initialSession?.usuario ?? null);
+  private tokenSubject = new BehaviorSubject<string | null>(this.initialSession?.token ?? null);
 
   public user$ = this.userSubject.asObservable();
   public token$ = this.tokenSubject.asObservable();
@@ -17,18 +24,20 @@ export class AuthService {
     distinctUntilChanged()
   );
 
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) {
+    this.restoreSession();
+  }
 
   login(payload: LoginPayload): Observable<AuthPayload> {
-    return this.http.post<AuthPayload>('/api/auth/login', payload).pipe(
-      tap(response => this.setSession(response.token, response.usuario)),
+    return this.http.post<AuthPayload, LoginPayload>('/api/auth/login', payload).pipe(
+      tap(response => this.setSession(response)),
       catchError(error => throwError(() => error))
     );
   }
 
   register(payload: RegisterPayload): Observable<AuthPayload> {
-    return this.http.post<AuthPayload>('/api/auth/register', payload).pipe(
-      tap(response => this.setSession(response.token, response.usuario)),
+    return this.http.post<AuthPayload, RegisterPayload>('/api/auth/register', payload).pipe(
+      tap(response => this.setSession(response)),
       catchError(error => throwError(() => error))
     );
   }
@@ -36,13 +45,25 @@ export class AuthService {
   logout(): void {
     this.userSubject.next(null);
     this.tokenSubject.next(null);
-    localStorage.removeItem('task-manager-auth');
+    localStorage.removeItem(AUTH_STORAGE_KEY);
   }
 
-  setSession(token: string, user: User): void {
-    this.tokenSubject.next(token);
-    this.userSubject.next(user);
-    localStorage.setItem('task-manager-auth', JSON.stringify({ token, user }));
+  restoreSession(): void {
+    const stored = this.readStoredSession();
+
+    if (!stored) {
+      this.logout();
+      return;
+    }
+
+    this.tokenSubject.next(stored.token);
+    this.userSubject.next(stored.usuario);
+  }
+
+  private setSession(authPayload: AuthPayload): void {
+    this.tokenSubject.next(authPayload.token);
+    this.userSubject.next(authPayload.usuario);
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authPayload));
   }
 
   getToken(): string | null {
@@ -50,32 +71,29 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.userSubject.value;
+    return !!this.tokenSubject.value;
   }
 
-  private restoreSession(): User | null {
-    const stored = localStorage.getItem('task-manager-auth');
-    if (stored) {
-      try {
-        const { token, user } = JSON.parse(stored);
-        this.tokenSubject.next(token);
-        return user;
-      } catch (e) {
-        console.error('Failed to restore session', e);
-      }
+  private readStoredSession(): StoredAuthSession | null {
+    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+
+    if (!raw) {
+      return null;
     }
-    return null;
-  }
 
-  private getStoredToken(): string | null {
-    const stored = localStorage.getItem('task-manager-auth');
-    if (stored) {
-      try {
-        return JSON.parse(stored).token;
-      } catch (e) {
+    try {
+      const parsed = JSON.parse(raw) as Partial<StoredAuthSession>;
+
+      if (!parsed.token || !parsed.usuario) {
         return null;
       }
+
+      return {
+        token: parsed.token,
+        usuario: parsed.usuario
+      };
+    } catch {
+      return null;
     }
-    return null;
   }
 }
