@@ -1,59 +1,70 @@
-# TaskManagerAngular
+# Task Manager
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.23.
+O "Task Manager" é uma aplicação de gerenciamento de tarefas que permita aos usuários organizar, monitorar e concluir suas atividades diárias, acadêmicas ou profissionais de maneira eficiente. Sendo um projeto de cunho estritamente acadêmico, o sistema tem como propósito servir como um laboratório prático para o estudo aprofundado do desenvolvimento de aplicações web full stack.
 
-## Development server
+A escolha de um gerenciador de tarefas justifica-se por ser um domínio de problema perfeitamente dimensionado: ele engloba todos os desafios fundamentais da engenharia de software contemporânea, incluindo operações de CRUD complexas, gerenciamento de estado da interface, autenticação, persistência de dados, e design de API, sem a sobrecarga de regras de negócios obscuras de indústrias específicas.
 
-To start a local development server, run:
+> Este projeto foi generado utilizando o [Angular CLI v19.2.23](https://github.com/angular/angular-cli).
+
+## Task Manager - Diretórios Back-End
+
+| **Tecnologia** | **Link** |        **Descrição**       |
+| -------------- | ---------------- |--------------------------- |
+| ![Nodejs com Express TS e Prisma ORM](https://skills.syvixor.com/api/icons?i=expressjs&theme=dark) | [Diretório Github](https://github.com/AdrianoBispo/task-manager-nodejs-expressTS) | Neste diretório contém a versão desenvolvida utilizando o runtime Nodejs com o Express, Typescript e Prisma ORM. |
+| ![NestJS](https://skills.syvixor.com/api/icons?i=nestjs&theme=dark) | [Diretório Github](https://github.com/AdrianoBispo/task-manager-nodejs-nestjs) | Neste diretório contém a versão desenvolvida utilizando o runtime Nodejs, NestJS com Prisma ORM. |
+
+## Servidor de desenvolvimento
+
+Para iniciar um servidor local de desenvolvimento, execute:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Depois que o servidor estiver em execução, abra o navegador e acesse `http://localhost:4200/`. A aplicação será recarregada automaticamente sempre que você modificar qualquer arquivo-fonte.
 
-## Code scaffolding
+## Geração de código (scaffolding)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+O Angular CLI inclui ferramentas poderosas de scaffolding. Para gerar um novo componente, execute:
 
 ```bash
-ng generate component component-name
+ng generate component nome-do-componente
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para uma lista completa dos esquemas disponíveis (como `components`, `directives` ou `pipes`), execute:
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## Build
 
-To build the project run:
+Para compilar o projeto, execute:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Isso irá compilar o projeto e armazenar os artefatos de build no diretório `dist/`. Por padrão, o build de produção otimiza a aplicação para desempenho e velocidade.
 
-## Running unit tests
+## Executando testes unitários
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Para executar testes unitários com o test runner [Karma](https://karma-runner.github.io), use o seguinte comando:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+## Executando testes de ponta a ponta (e2e)
 
-For end-to-end (e2e) testing, run:
+Para testes end-to-end (e2e), execute:
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+O Angular CLI não vem com um framework de testes end-to-end por padrão. Você pode escolher o que melhor atender às suas necessidades.
 
-## Additional Resources
+## Recursos adicionais
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para mais informações sobre o uso do Angular CLI, incluindo referências detalhadas de comandos, visite a página [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
