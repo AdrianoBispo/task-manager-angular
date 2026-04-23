@@ -1,0 +1,28 @@
+<article class="task-item">
+  <div class="task-item__main">
+    <h3 class="task-item__title">{{ task.titulo }}</h3>
+    <p class="task-item__description" *ngIf="task.descricao">{{ task.descricao }}</p>
+  </div>
+
+  <div class="task-item__badges">
+    <span class="badge badge--status" [ngClass]="'badge--' + task.status.toLowerCase()">
+      {{ statusLabel(task.status) }}
+    </span>
+    <span class="badge badge--priority" [ngClass]="'badge--' + task.prioridade.toLowerCase()">
+      {{ priorityLabel(task.prioridade) }}
+    </span>
+  </div>
+
+  <div class="task-item__actions">
+    <button type="button" class="btn btn--ghost" (click)="onEdit()">Editar</button>
+    <button type="button" class="btn btn--danger" (click)="onDelete()">Deletar</button>
+    <button
+      type="button"
+      class="btn btn--primary"
+      (click)="onComplete()"
+      [disabled]="task.status === 'CONCLUIDA'"
+    >
+      Marcar Completa
+    </button>
+  </div>
+</article>

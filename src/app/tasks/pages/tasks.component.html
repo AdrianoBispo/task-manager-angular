@@ -1,0 +1,42 @@
+<section class="tasks-page">
+  <header class="tasks-page__header">
+    <div>
+      <h1>Minhas tarefas</h1>
+      <p *ngIf="user$ | async as user">Conectado como {{ user.nome }}</p>
+    </div>
+
+    <div class="tasks-page__header-actions">
+      <button type="button" class="btn btn--primary" (click)="onCreateTask()">Nova tarefa</button>
+      <button type="button" class="btn btn--ghost" (click)="onLogout()">Logout</button>
+    </div>
+  </header>
+
+  <div *ngIf="toast" class="toast" [ngClass]="'toast--' + toast.type">{{ toast.message }}</div>
+
+  <app-task-form
+    *ngIf="isFormOpen"
+    [task]="editingTask"
+    [isSubmitting]="isSubmitting"
+    (save)="onSaveTask($event)"
+    (cancel)="onCancelTaskForm()"
+  ></app-task-form>
+
+  <div class="tasks-page__meta" *ngIf="meta$ | async as meta">
+    <span>Pagina {{ meta.pagina_atual }} de {{ meta.total_paginas }}</span>
+    <span>{{ meta.total_itens }} tarefa(s)</span>
+  </div>
+
+  <div class="tasks-page__list" [attr.aria-busy]="(isLoading$ | async) ? 'true' : 'false'">
+    <ng-container *ngIf="tasks$ | async as tasks">
+      <p class="tasks-page__empty" *ngIf="!tasks.length">Nenhuma tarefa encontrada.</p>
+
+      <app-task-item
+        *ngFor="let task of tasks"
+        [task]="task"
+        (edit)="onEditTask($event)"
+        (delete)="onDeleteTask($event)"
+        (complete)="onMarkComplete($event)"
+      ></app-task-item>
+    </ng-container>
+  </div>
+</section>

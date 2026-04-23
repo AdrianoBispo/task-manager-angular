@@ -1,0 +1,76 @@
+:host {
+  display: block;
+}
+
+.task-form {
+  border: 1px solid #dbeafe;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.task-form__title {
+  margin: 0;
+  color: #0f172a;
+}
+
+.task-form__label {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.task-form__input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+}
+
+.task-form__grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .task-form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.task-form__error {
+  margin: -0.35rem 0 0;
+  color: #b91c1c;
+  font-size: 0.82rem;
+}
+
+.task-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn--ghost {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn--primary {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

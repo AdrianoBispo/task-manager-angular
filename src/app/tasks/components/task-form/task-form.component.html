@@ -1,0 +1,50 @@
+<form class="task-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2 class="task-form__title">{{ task ? 'Editar tarefa' : 'Nova tarefa' }}</h2>
+
+  <label for="titulo" class="task-form__label">Titulo *</label>
+  <input id="titulo" type="text" class="task-form__input" formControlName="titulo" />
+  <p class="task-form__error" *ngIf="form.controls.titulo.touched && form.controls.titulo.invalid">
+    Informe um titulo com pelo menos 3 caracteres.
+  </p>
+
+  <label for="descricao" class="task-form__label">Descricao</label>
+  <textarea id="descricao" class="task-form__input" rows="3" formControlName="descricao"></textarea>
+
+  <div class="task-form__grid">
+    <div>
+      <label for="status" class="task-form__label">Status</label>
+      <select id="status" class="task-form__input" formControlName="status">
+        <option value="PENDENTE">Pendente</option>
+        <option value="EM_ANDAMENTO">Em andamento</option>
+        <option value="CONCLUIDA">Concluida</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="prioridade" class="task-form__label">Prioridade</label>
+      <select id="prioridade" class="task-form__input" formControlName="prioridade">
+        <option value="BAIXA">Baixa</option>
+        <option value="MEDIA">Media</option>
+        <option value="ALTA">Alta</option>
+      </select>
+    </div>
+  </div>
+
+  <label for="data_vencimento" class="task-form__label">Data de vencimento</label>
+  <input id="data_vencimento" type="date" class="task-form__input" formControlName="data_vencimento" />
+  <p
+    class="task-form__error"
+    *ngIf="form.controls.data_vencimento.touched && form.controls.data_vencimento.hasError('invalidDate')"
+  >
+    Informe uma data valida.
+  </p>
+
+  <div class="task-form__actions">
+    <button type="button" class="btn btn--ghost" (click)="onCancel()" [disabled]="isSubmitting">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn--primary" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Salvando...' : 'Salvar' }}
+    </button>
+  </div>
+</form>
